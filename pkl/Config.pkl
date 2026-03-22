@@ -1,0 +1,80 @@
+@go.Package { name = "github.com/toniphan21/highly-flexible-genex/pkl" }
+module genex.Config
+
+import "package://pkg.pkl-lang.org/pkl-go/pkl.golang@0.13.2#/go.pkl"
+
+import "package://nhatp.com/go/gen-lib/pkl@0.11.0#/gen.pkl"
+import "package://nhatp.com/go/gen-lib/pkl@0.11.0#/match.pkl"
+import "package://nhatp.com/go/chainer-gen/pkl@0.4.0#/chainer.pkl"
+import "package://nhatp.com/go/chainer-gen/pkl@0.4.0#/handle.pkl"
+import "package://nhatp.com/go/composer-gen/pkl@0.3.0#/composer.pkl"
+import "package://nhatp.com/go/stringer-gen/pkl@0.5.0#/stringer.pkl"
+
+typealias PackagePath = String
+
+open class Base {
+  output: gen.Output?
+}
+
+// --- chainer
+local const function chained_method(v: String) = new chainer.ChainedMethod {
+  name = match.withIgnoreCase(v)
+  error_handler = handle.wrap(chainer.placeholderMatchedMethodName + ": %w")
+}
+
+const defaultChainedMethods: Listing<chainer.ChainedMethod> = new Listing {
+  chained_method("validate")
+  chained_method("authorize")
+  chained_method("process")
+  chained_method("handle")
+}
+
+open class BaseChainer extends chainer.Package {
+  output: gen.Output?
+
+  methods = defaultChainedMethods
+}
+
+class Chainer extends BaseChainer {
+  priorities: Mapping<Int, BaseChainer>
+}
+
+// --- composer
+
+open class BaseComposer extends composer.Package {
+  output: gen.Output?
+}
+
+class Composer extends BaseComposer {
+  priorities: Mapping<Int, BaseComposer>
+}
+
+// --- stringer
+
+open class BaseStringer extends stringer.Package {
+  output: gen.Output?
+}
+
+class Stringer extends BaseStringer {
+  priorities: Mapping<Int, BaseStringer>
+}
+
+// --- bundled
+
+class Package {
+  output: gen.Output?
+  chainer: Chainer
+  composer: Composer
+  stringer: Stringer
+}
+
+// --- exposed
+
+all: Base = new Base {
+  output {
+    source = "codegen.go"
+    test = "codegen_test.go"
+  }
+}
+
+packages: Mapping<PackagePath, Package>

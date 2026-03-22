@@ -1,0 +1,46 @@
+amends "../pkl/Config.pkl"
+
+import "package://nhatp.com/go/gen-lib/pkl@0.11.0#/match.pkl"
+import "package://nhatp.com/go/chainer-gen/pkl@0.4.0#/chainer.pkl"
+import "package://nhatp.com/go/chainer-gen/pkl@0.4.0#/handle.pkl"
+
+packages {
+  ["github.com/toniphan21/highly-flexible-genex/example"] {
+    chainer {
+      struct_name = match.regex("(?i)^.*Op$")
+    }
+
+    composer {
+      receivers {
+        new { struct_name = "createUserOp"; exported_as = "CreateUser" }
+        new { struct_name = "updateUserOp"; exported_as = "UpdateUser" }
+      }
+    }
+
+    stringer {
+      types { "Status" }
+      line_comment = true
+    }
+  }
+
+  ["github.com/toniphan21/highly-flexible-genex/example/api"] {
+    chainer {
+      struct_name = match.regex("(?i)^.+API$")
+      method_name = "handle"
+      methods = new Listing<chainer.ChainedMethod> {
+        new chainer.ChainedMethod {
+          name = match.withIgnoreCase("parse")
+          error_handler = handle.wrap("parse: %w")
+        }
+        new chainer.ChainedMethod {
+          name = match.withIgnoreCase("invoke")
+          error_handler = handle.wrap("invoke: %w")
+        }
+        new chainer.ChainedMethod {
+          name = match.withIgnoreCase("response")
+          error_handler = handle.wrap("response: %w")
+        }
+      }
+    }
+  }
+}
