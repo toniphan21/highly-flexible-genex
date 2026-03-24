@@ -5,8 +5,8 @@ import "package://pkg.pkl-lang.org/pkl-go/pkl.golang@0.13.2#/go.pkl"
 
 import "package://nhatp.com/go/gen-lib/pkl@0.11.0#/gen.pkl"
 import "package://nhatp.com/go/gen-lib/pkl@0.11.0#/match.pkl"
-import "package://nhatp.com/go/chainer-gen/pkl@0.4.0#/chainer.pkl"
-import "package://nhatp.com/go/chainer-gen/pkl@0.4.0#/handle.pkl"
+import "package://nhatp.com/go/chainer-gen/pkl@0.5.0#/chainer.pkl"
+import "package://nhatp.com/go/chainer-gen/pkl@0.5.0#/handle.pkl"
 import "package://nhatp.com/go/composer-gen/pkl@0.3.0#/composer.pkl"
 import "package://nhatp.com/go/stringer-gen/pkl@0.5.0#/stringer.pkl"
 

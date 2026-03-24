@@ -6,7 +6,7 @@ require (
 	github.com/alexflint/go-arg v1.6.1
 	github.com/apple/pkl-go v0.13.2
 	golang.org/x/tools v0.43.0
-	nhatp.com/go/chainer-gen v0.4.0
+	nhatp.com/go/chainer-gen v0.5.0
 	nhatp.com/go/composer-gen v0.3.0
 	nhatp.com/go/gen-lib v0.11.0
 	nhatp.com/go/stringer-gen v0.5.0
